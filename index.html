@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AURUM AI — XAUUSD Signal Terminal</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo"><svg viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="14" stroke="#d4af37" stroke-width="2"/><path d="M10 20 L16 8 L22 20" stroke="#d4af37" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="18" r="2" fill="#d4af37"/></svg></div>
+      <div class="brand-text"><span class="name">AURUM</span><span class="tag">AI SIGNAL</span></div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" data-panel="live">Live Signal</button>
+      <button class="nav-btn" data-panel="history">History</button>
+      <button class="nav-btn" data-panel="analysis">AI Analysis</button>
+      <button class="nav-btn" data-panel="settings">Settings</button>
+    </nav>
+    <div class="status-pill"><span class="dot live"></span><span>MARKET OPEN</span><span class="time" id="clock">--:--:--</span></div>
+  </header>
+  <main>
+    <section id="panel-live" class="panel active">
+      <div class="hero-signal">
+        <div class="signal-card" id="main-signal">
+          <div class="signal-header">
+            <div class="pair"><span class="pair-name">XAUUSD</span><span class="pair-desc">Gold / US Dollar</span></div>
+            <div class="tf-badge">H1 · M15 confluence</div>
+          </div>
+          <div class="signal-body">
+            <div class="direction"><span class="dir-label">SIGNAL</span><span class="dir-value buy" id="dir-value">BUY</span></div>
+            <div class="confidence">
+              <div class="conf-ring">
+                <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" class="ring-bg"/><circle cx="50" cy="50" r="42" class="ring-fill" id="conf-ring"/></svg>
+                <div class="conf-num"><span id="conf-value">87</span><small>%</small></div>
+              </div>
+              <span class="conf-label">AI Confidence</span>
+            </div>
+          </div>
+          <div class="levels">
+            <div class="level entry"><span class="lvl-label">ENTRY</span><span class="lvl-value" id="entry-price">2348.60</span></div>
+            <div class="level sl"><span class="lvl-label">STOP LOSS</span><span class="lvl-value" id="sl-price">2339.20</span></div>
+            <div class="level tp"><span class="lvl-label">TAKE PROFIT</span><span class="lvl-value" id="tp-price">2367.40</span></div>
+            <div class="level rr"><span class="lvl-label">R:R</span><span class="lvl-value" id="rr-value">1 : 2.1</span></div>
+          </div>
+          <div class="ai-reason">
+            <div class="reason-header"><span class="ai-icon">◈</span><span>AI Reasoning</span></div>
+            <p id="ai-reason-text">Bullish order block di 2342–2345 masih valid. Liquidity sweep di low kemarin selesai, harga reclaim VWAP H1. Momentum RSI divergen positif + volume spike di M15. Target liquidity pool di 2365–2370.</p>
+          </div>
+          <div class="signal-meta">
+            <span>Generated: <strong id="gen-time">01:07 WIB</strong></span>
+            <span>Valid until: <strong id="valid-until">~3 jam</strong></span>
+            <span class="status-badge open">OPEN</span>
+          </div>
+        </div>
+        <div class="side-cards">
+          <div class="mini-card price-card"><span class="mini-label">Last Price</span><span class="mini-value" id="last-price">2349.15</span><span class="mini-change up" id="price-change">+0.42%</span></div>
+          <div class="mini-card"><span class="mini-label">Session</span><span class="mini-value session" id="session">London</span></div>
+          <div class="mini-card"><span class="mini-label">Volatility</span><div class="vol-bar"><div class="vol-fill" style="width:68%"></div></div><span class="mini-sub">Medium-High</span></div>
+          <div class="mini-card"><span class="mini-label">AI Model</span><span class="mini-value model">AURUM-v3.2</span><span class="mini-sub">Multi-TF Ensemble</span></div>
+        </div>
+      </div>
+      <div class="chart-section">
+        <div class="chart-header"><h3>Price Action Snapshot</h3><div class="chart-tabs"><button class="ctab active">M15</button><button class="ctab">H1</button><button class="ctab">H4</button></div></div>
+        <div class="chart-container"><canvas id="priceChart" width="900" height="280"></canvas></div>
+      </div>
+    </section>
+
+    <section id="panel-history" class="panel">
+      <div class="section-title">
+        <h2>Signal History</h2>
+        <div class="filter-row">
+          <button class="filter active">All</button>
+          <button class="filter">Win</button>
+          <button class="filter">Loss</button>
+          <button class="filter">Open</button>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-box"><span class="stat-num">68.4%</span><span class="stat-label">Winrate (30d)</span></div>
+        <div class="stat-box"><span class="stat-num positive">+214 pips</span><span class="stat-label">Net Pips</span></div>
+        <div class="stat-box"><span class="stat-num">47</span><span class="stat-label">Total Signals</span></div>
+        <div class="stat-box"><span class="stat-num">1.82</span><span class="stat-label">Avg R:R</span></div>
+      </div>
+      <div class="history-table-wrap">
+        <table class="history-table">
+          <thead><tr><th>Time</th><th>Direction</th><th>Entry</th><th>SL</th><th>TP</th><th>Result</th><th>Pips</th><th>Conf</th></tr></thead>
+          <tbody id="history-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="panel-analysis" class="panel">
+      <div class="section-title"><h2>AI Market Analysis</h2><span class="updated">Updated every 15 min</span></div>
+      <div class="analysis-grid">
+        <div class="analysis-card">
+          <h4>Structure Bias</h4>
+          <div class="bias-indicator bullish"><span class="bias-dot"></span>BULLISH</div>
+          <p>Higher highs & higher lows tetap terjaga di H4. Break of structure terakhir di 2332 sudah retested sebagai support.</p>
+        </div>
+        <div class="analysis-card">
+          <h4>Key Levels</h4>
+          <ul class="level-list">
+            <li><span class="res">Resistance</span> 2368 – 2375</li>
+            <li><span class="res">Resistance</span> 2355 – 2358</li>
+            <li><span class="sup">Support</span> 2342 – 2345</li>
+            <li><span class="sup">Support</span> 2328 – 2332</li>
+          </ul>
+        </div>
+        <div class="analysis-card">
+          <h4>Momentum & Volume</h4>
+          <div class="meter"><div class="meter-label">RSI (14)</div><div class="meter-bar"><div class="fill" style="width:62%"></div></div><span>62</span></div>
+          <div class="meter"><div class="meter-label">Volume Delta</div><div class="meter-bar green"><div class="fill" style="width:71%"></div></div><span>+71%</span></div>
+          <div class="meter"><div class="meter-label">CVD Trend</div><div class="meter-bar green"><div class="fill" style="width:58%"></div></div><span>Bullish</span></div>
+        </div>
+        <div class="analysis-card full">
+          <h4>Narrative Summary</h4>
+          <p>Gold sedang dalam fase continuation bullish setelah liquidity grab di area 2330-an. Dollar index (DXY) menunjukkan weakness di session Asia-London, mendukung upside XAU. AI model mendeteksi confluence antara order block H1, FVG M15, dan institutional candle di open London. Risk utama: data USD yang akan dirilis atau spike DXY. Position size disarankan 0.5–1% risk per signal.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="panel-settings" class="panel">
+      <div class="section-title"><h2>Preferences</h2></div>
+      <div class="settings-grid">
+        <div class="setting-item">
+          <label>Default Timeframe Bias</label>
+          <select><option>Multi-TF (Recommended)</option><option>M15</option><option>H1</option><option>H4</option></select>
+        </div>
+        <div class="setting-item">
+          <label>Min Confidence Filter</label>
+          <input type="range" min="50" max="95" value="70" id="conf-filter" />
+          <span id="conf-filter-val">70%</span>
+        </div>
+        <div class="setting-item">
+          <label>Risk per Trade (%)</label>
+          <input type="number" value="1" min="0.1" max="5" step="0.1" />
+        </div>
+        <div class="setting-item">
+          <label>Notification Style</label>
+          <div class="toggle-row">
+            <button class="toggle active">Sound</button>
+            <button class="toggle">Push</button>
+            <button class="toggle">Silent</button>
+          </div>
+        </div>
+        <div class="setting-item full">
+          <label>Disclaimer</label>
+          <p class="disclaimer">AURUM AI adalah tools analisis teknikal berbasis model ensemble. Bukan financial advice. Trading XAUUSD mengandung risiko tinggi. Selalu gunakan money management dan jangan trade dengan uang yang kamu butuhkan.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <span>AURUM AI · XAUUSD Signal Terminal</span>
+    <span class="sep">·</span>
+    <span>Not financial advice</span>
+    <span class="sep">·</span>
+    <span id="footer-time"></span>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
